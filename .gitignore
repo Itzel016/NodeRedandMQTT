@@ -1,0 +1,19 @@
+# Credenciales de Node-RED
+nodered/data/flows_cred.json
+
+# Dependencias instaladas
+nodered/data/node_modules/
+
+# Datos y logs de EMQX
+emqx/data/
+emqx/log/
+
+# Variables de entorno
+.env
+*.env
+
+# Archivos temporales
+*.tmp
+*.log
+.DS_Store
+Thumbs.db

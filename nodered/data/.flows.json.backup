@@ -1,0 +1,500 @@
+[
+    {
+        "id": "72193077ed2e69d9",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "c8fe9ff49296ef3f",
+        "type": "mqtt-broker",
+        "name": "emqxbroker",
+        "broker": "emqx",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "5b1db1086c675ae2",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "fed0ab7e14ca1534",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#fcfcfd",
+            "primary": "#0d74ce",
+            "bgPage": "#f9f9fb",
+            "groupBg": "#ffffff",
+            "groupOutline": "#d9d9e0"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "2ea04a716ba528e2",
+        "type": "ui-page",
+        "name": "MonitoreoTemperatura",
+        "ui": "5b1db1086c675ae2",
+        "path": "/page1",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "fed0ab7e14ca1534",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "c74fb7305243e607",
+        "type": "ui-group",
+        "name": "SensoreDTH11",
+        "page": "2ea04a716ba528e2",
+        "width": 6,
+        "height": 1,
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "b3f8c4ed4850efd6",
+        "type": "mqtt in",
+        "z": "72193077ed2e69d9",
+        "name": "entrada",
+        "topic": "temperatura/datos",
+        "qos": "0",
+        "datatype": "utf8",
+        "broker": "c8fe9ff49296ef3f",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 80,
+        "wires": [
+            [
+                "0491857cccc3c8c3"
+            ]
+        ]
+    },
+    {
+        "id": "055a0b6a74c716b3",
+        "type": "mqtt out",
+        "z": "72193077ed2e69d9",
+        "name": "Salida",
+        "topic": "temperatura/datos",
+        "qos": "0",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "c8fe9ff49296ef3f",
+        "x": 370,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "e7574cd68135e055",
+        "type": "inject",
+        "z": "72193077ed2e69d9",
+        "name": "Pruebas",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "Hola pruebas de temperatura",
+        "payload": "object",
+        "payloadType": "date",
+        "x": 280,
+        "y": 280,
+        "wires": [
+            [
+                "16dc7bcbb25922c9"
+            ]
+        ]
+    },
+    {
+        "id": "16dc7bcbb25922c9",
+        "type": "function",
+        "z": "72193077ed2e69d9",
+        "name": "GeneradorDatos",
+        "func": "let temperatura = 20 + Math.random() * 10;\nlet humedad = 45 + Math.random() * 25;\n\nmsg.payload = {\n    dispositivo: \"ESP32_DHT11\",\n    sensor: \"DHT11\",\n    temperatura: Number(temperatura.toFixed(1)),\n    humedad: Number(humedad.toFixed(1))\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 340,
+        "wires": [
+            [
+                "21428786df8256a2"
+            ]
+        ]
+    },
+    {
+        "id": "21428786df8256a2",
+        "type": "json",
+        "z": "72193077ed2e69d9",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 310,
+        "y": 400,
+        "wires": [
+            [
+                "055a0b6a74c716b3"
+            ]
+        ]
+    },
+    {
+        "id": "0491857cccc3c8c3",
+        "type": "json",
+        "z": "72193077ed2e69d9",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 290,
+        "y": 100,
+        "wires": [
+            [
+                "b65a7af96026297a"
+            ]
+        ]
+    },
+    {
+        "id": "5a2218530e2cd558",
+        "type": "debug",
+        "z": "72193077ed2e69d9",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 440,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "b65a7af96026297a",
+        "type": "function",
+        "z": "72193077ed2e69d9",
+        "name": "procesarDTH11",
+        "func": "let datos = msg.payload;\n\nmsg.temperatura = datos.temperatura;\nmsg.humedad = datos.humedad;\nmsg.dispositivo = datos.dispositivo;\nmsg.sensor = datos.sensor;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 180,
+        "wires": [
+            [
+                "5a2218530e2cd558",
+                "8bfbf4298f2a829d",
+                "403a44234e227d3f"
+            ]
+        ]
+    },
+    {
+        "id": "ef75528702493866",
+        "type": "ui-gauge",
+        "z": "72193077ed2e69d9",
+        "name": "",
+        "group": "c74fb7305243e607",
+        "order": 2,
+        "value": "payload",
+        "valueType": "msg",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Temperatura",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "°C",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "4",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "7",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": "50",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 830,
+        "y": 140,
+        "wires": [
+            [
+                "136af5d926b24d11"
+            ]
+        ]
+    },
+    {
+        "id": "8bfbf4298f2a829d",
+        "type": "function",
+        "z": "72193077ed2e69d9",
+        "name": "prepararTemperatura",
+        "func": "msg.payload = msg.temperatura;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 160,
+        "wires": [
+            [
+                "ef75528702493866"
+            ]
+        ]
+    },
+    {
+        "id": "403a44234e227d3f",
+        "type": "function",
+        "z": "72193077ed2e69d9",
+        "name": "prepararHumedad",
+        "func": "msg.payload = msg.humedad;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 220,
+        "wires": [
+            [
+                "c7a9d93ec2f52c02"
+            ]
+        ]
+    },
+    {
+        "id": "c7a9d93ec2f52c02",
+        "type": "ui-gauge",
+        "z": "72193077ed2e69d9",
+        "name": "Humedad",
+        "group": "c74fb7305243e607",
+        "order": 1,
+        "value": "payload",
+        "valueType": "msg",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Humedad",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "%",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "4",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "7",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 860,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "136af5d926b24d11",
+        "type": "ui-chart",
+        "z": "72193077ed2e69d9",
+        "group": "c74fb7305243e607",
+        "name": "GraficaTemperatura",
+        "label": "chart",
+        "order": 9007199254740991,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "0",
+        "ymax": "50",
+        "bins": 10,
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "circle",
+        "pointRadius": 4,
+        "showLegend": true,
+        "removeOlder": 1,
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#0095ff",
+            "#ff0000",
+            "#ff7f0e",
+            "#2ca02c",
+            "#a347e1",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": 6,
+        "height": 8,
+        "className": "",
+        "interpolation": "linear",
+        "x": 1040,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    }
+]
